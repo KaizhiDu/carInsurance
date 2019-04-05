@@ -34,16 +34,16 @@ router.post("/check", function (req, res) {
             console.log(err);
             
         } else {
-            console.log(user);
+            //console.log(user);
             if (user) {
                 switch (user.type) {
-                    case "0": res.render("driver");
+                    case "0": res.render("driver/driver", {userInfo: user});
                         
                         break;
-                    case "1": res.render("admin");
+                    case "1": res.render("admin/admin", {userInfo: user});
                         
                         break;
-                    case "2": res.render("underwriter");
+                    case "2": res.render("underwriter/underwriter", {userInfo: user});
                         
                         break;
                 
