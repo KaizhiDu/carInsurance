@@ -9,15 +9,18 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../public")));
 mongoose.connect("mongodb+srv://admin-kevin:dkzh19921210@firstdemo-o9czr.mongodb.net/carInsuranceDB", {useNewUrlParser: true});
+var mongodb = require("../routes/schema");
 
 
-const userSchema = new mongoose.Schema({
-    _id: String,
-    username: String,
-    password: String,
-    type: String
-});
-const User = mongoose.model("User", userSchema);
+var User = mongodb.col.users;
+
+// const userSchema = new mongoose.Schema({
+//     _id: String,
+//     username: String,
+//     password: String,
+//     type: String
+// });
+// const User = mongoose.model("User", userSchema);
 
 router.get("/login", function (req, res) {
     res.render("login.ejs");  

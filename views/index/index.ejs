@@ -22,7 +22,9 @@
 
   <!-- Custom styles for this template -->
   <link href="/css/agency.min.css" rel="stylesheet">
-
+  <link href="/css/form.css" rel="stylesheet">
+ 
+  </style>
 </head>
 
 <body id="page-top">
@@ -83,8 +85,8 @@
             <i class="fas fa-circle fa-stack-2x text-primary"></i>
             <i class="fas fa-comment-dots fa-stack-1x fa-inverse"></i>
           </span>
-          <h4 class="service-heading">E-Commerce</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+          <h4 class="service-heading">Online Consultation</h4>
+          <p class="text-muted">We provide online consultation function, you can get the insurance quotation within six months according to the information you provided.</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -92,7 +94,7 @@
             <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">Responsive Design</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+          <p class="text-muted">We offer a responsive system design that allows you to access our systems from your phone and computer.</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -100,7 +102,7 @@
             <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">Web Security</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+          <p class="text-muted">We provide privacy features, administrator and underwriter do not have permission to view your private information, only to see your quote.</p>
         </div>
       </div>
     </div>
@@ -112,11 +114,36 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Start Quote</h2>
-          <h3 class="section-subheading text-muted">If you don't have a user, you can sign up here quickly.</h3>
+          <h3 class="section-subheading text-muted">If you don't have a user account, you can sign up here quickly.</h3>
         </div>
       </div>
       <div class="row">
-        
+              <form id="loginForm" action="/carinsurance/register/register" method="post" class="form-signin">
+                <h1 class="h3 mb-3 font-weight-normal">Please sign up first</h1>
+                <div class="form-group">
+                    <label for="username" class="sr-only">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');"/>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required oninvalid="setCustomValidity('password can not be empty')" oninput="setCustomValidity('');"/>
+                </div>
+                <div class="form-group">
+                  <label for="firstName" class="sr-only">firstName</label>
+                <input type="text" id="firstName" name="firstName" class="form-control" placeholder="firstName" required oninvalid="setCustomValidity('firstname can not be empty')" oninput="setCustomValidity('');"/>
+                </div>
+                <div class="form-group">
+                  <label for="lastName" class="sr-only">lastName</label>
+                <input type="text" id="lastName" name="lastName" class="form-control" placeholder="lastName" required oninvalid="setCustomValidity('lastname can not be empty')" oninput="setCustomValidity('');">
+                </div>
+                <div class="form-group">
+                  <label for="eEmail" class="sr-only">Email</label>
+                  <input type="text" id="email" class="form-control" placeholder="Email" required oninvalid="setCustomValidity('email can not be empty')" oninput="setCustomValidity('');"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-lg btn-primary btn-block" >Sign up</button>
+                </div>
+        </form>
       </div>
     </div>
   </section>
@@ -131,9 +158,18 @@
   <!-- Contact form JavaScript -->
   <script src="/js/jqBootstrapValidation.js"></script>
   <script src="/js/contact_me.js"></script>
+  <script src="/js/bootstrap-validate.js"></script>
 
   <!-- Custom scripts for this template -->
   <script src="/js/agency.min.js"></script>
+
+  <script>
+      bootstrapValidate("#username", "required: can not empty");
+      bootstrapValidate("#password", "required: can not empty");
+      bootstrapValidate("#firstName", "required: can not empty");
+      bootstrapValidate("#lastName", "required: can not empty");
+      bootstrapValidate("#email", "email: enter a vaild email address");
+  </script>
 
 </body>
 
