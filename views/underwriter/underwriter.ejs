@@ -22,7 +22,7 @@
 
   <!-- Custom styles for this template -->
   <link href="/css/agency.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
 </head>
 
 <body id="page-top">
@@ -102,13 +102,107 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Approve Quote</h2>
-          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+          
         </div>
       </div>
       <div class="row">
-        
+        <div class="col-md-9 column">
+        <div id="myTable" style="table-layout: fixed;"></div>
+        </div>
+        <div class="col-md-3 column">
+            <form role="form" action="/data" method="get">
+                <div class="form-group">
+                    <label for="name">name</label><input type="text" class="form-control" name="firstname" id="firstname" />
+                </div>
+                <div class="form-group">
+                    <label for="email">age</label><input type="text" class="form-control" name="age"
+                        id="age" />
+                </div>
+                <div class="form-group">
+                    <label for="address">DL</label><input type="text" class="form-control" name="driverlicense"
+                        id="driverlicense" />
+                </div>
+                <div class="form-group">
+                    <label for="name">state</label><input type="text" class="form-control" name="state" id="state" />
+                </div>
+                <div class="form-group">
+                    <label for="phone">make</label><input type="text" class="form-control" name="make"
+                        id="make" />
+                </div>
+                <div class="form-group">
+                    <label for="name">accin3y</label><input type="text" class="form-control" name="accin3y" id="accin3y" />
+                </div>
+                
+                <button type="button" onclick="search()" class="btn btn-success">search</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <div id="myModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Quotation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="quoteBody" class="modal-body">
+              
+            <form id="loginForm" action="/carinsurance/login/check" method="post" class="form-signin">
+              <input type="hidden" id="quoteId">
+              <div class="form-group">
+                  <label>name</label>
+                  <input id="fn" type="text" class="form-control" disabled>
+              </div>
+              <div class="form-group">
+                <label>age</label>
+                <input id="a" type="text" class="form-control" disabled>
+              </div>
+              <div class="form-group">
+                <label>state</label>
+                <input id="s" type="text" class="form-control" disabled>
+              </div>
+              <div class="form-group">
+                <label>DL</label>
+                <input id="dl" type="text" class="form-control" disabled>
+              </div>
+              <div class="form-group">
+                <label>make</label>
+                <input id="m" type="text" class="form-control" disabled>
+              </div>
+              <div class="form-group">
+                <label>accin3y</label>
+                <input id="acc" type="text" class="form-control" disabled>
+              </div>
+              <div class="form-group">
+                <label>score</label>
+                <input id="sc" type="text" class="form-control" disabled>
+              </div>
+              <div class="form-group">
+                <label>approve status</label>
+                <select id="approveStatus" class="form-control">
+                    <!-- <option value="0">please choose</option>
+                    <option value="1">approve</option>
+                    <option value="2">disapprove</option> -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label>comment</label>
+                <input id="comment" type="text" class="form-control">
+              </div>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="saveStatus()">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
     </div>
+
   </section>
 
   <!-- Bootstrap core JavaScript -->
@@ -121,9 +215,239 @@
   <!-- Contact form JavaScript -->
   <script src="/js/jqBootstrapValidation.js"></script>
   <script src="/js/contact_me.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>>
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/locale/bootstrap-table-en-US.min.js"></script>
+  <script src="/js/bootbox.all.min.js"></script>
 
   <!-- Custom scripts for this template -->
   <script src="/js/agency.min.js"></script>
+
+  <script>
+    search();
+  
+  function search() {
+      $("#myTable").bootstrapTable("destroy");
+      $("#myTable").bootstrapTable({ // 对应table标签的id  
+          url: "/carinsurance/underwriter/data", // 获取表格数据的url
+          method: 'get',
+          cache: false,
+          pagination: true,
+          //sidePagination:'server',//设置为后台服务器分页
+          pageNumber: 1,
+          //pageSize:10,
+          //pageList:[10,20,30,40,50],
+          queryParamsType: '',//请求参数类型，默认为`limit`，使用默认值不会向后台出入分页所需的页号，页数据数等必须值，所以需要设置为空串
+          queryParams: function (params) {//向后台传输参数。params为bootstrap-table的options.
+              var param = {
+                  page: params.pageNumber,//获取页号
+                  size: params.pageSize,//获取页面数据量大小
+                   firstname: $("#firstname").val(),
+                   age: $("#age").val(),
+                   driverlicense: $("#driverlicense").val(),
+                   state: $("#state").val(),
+                   make: $("#make").val(),
+                   accin3y: $("#accin3y").val(),
+                   dui: $("#dui").val()
+              }
+              return param;
+          },
+          //uniqueId:'_id',
+          //toolbar:'#toolbar',
+          //showColumns:true,
+          //showRefresh:true,
+          //showToggle:true,
+          //search:true,
+          //       sortName: 'id', // 要排序的字段
+          //       sortOrder: 'desc', // 排序规则
+          columns: [
+              {
+                  checkbox: true, // 显示一个勾选框
+                  align: 'center'
+              }, {
+                  field: '_id',
+                  title: '_id',
+                  align: 'center',
+                  valign: 'middle',
+                  visible: false,
+              },
+              {
+                  field: 'firstname',
+                  title: 'name',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              }, {
+                  field: 'age',
+                  title: 'age',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+              {
+                  field: 'driverlicense',
+                  title: 'DL',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+              {
+                  field: 'state',
+                  title: 'state',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+              {
+                  field: 'make',
+                  title: 'make',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+              {
+                  field: 'accin3y',
+                  title: 'accin3y',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+              {
+                  title: "opt",
+                  align: 'center',
+                  valign: 'middle',
+                  width: 300, // 定义列的宽度，单位为像素px
+                  formatter: function (value, row, index) {
+                      return '<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" onclick="process(\'' + row._id + '\')">Process</button>'   
+                             
+                  }
+              }
+          ],
+          onLoadSuccess: function () {  //加载成功时执行
+              console.info("加载成功");
+          },
+          onLoadError: function () {  //加载失败时执行
+              console.info("加载数据失败");
+          }
+  
+      });
+  }
+  
+  function deny(id) {
+    bootbox.confirm({title: "WARNING",
+                    message: "Are you sure you want to deny this quote?",
+                    buttons: {confirm: {label: 'Yes',className: 'btn-success'},
+                    cancel: {label: 'No',className: 'btn-danger'}},
+                    callback: function (result) {                   
+                      if(result) {  
+                        $.ajax({
+                        url: "/",
+                        type: "POST",
+                        data: {
+                          id: id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                        }
+                      });
+                    $("#myTable").bootstrapTable('refresh', {
+                        silent: true
+                    });
+                      } 
+                    }});
+  }
+  
+  function permit(id) {
+    bootbox.confirm({title: "WARNING",
+                    message: "Are you sure you want to permit this quote?",
+                    buttons: {confirm: {label: 'Yes',className: 'btn-success'},
+                    cancel: {label: 'No',className: 'btn-danger'}},
+                    callback: function (result) {                   
+                      if(result) {  
+                        $.ajax({
+                        url: "/",
+                        type: "POST",
+                        data: {
+                          id: id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                        }
+                      });
+                    $("#myTable").bootstrapTable('refresh', {
+                        silent: true
+                    });
+                      } 
+                    }});
+  }
+  
+  function process(id) {
+                      $.ajax({
+                        url: "/carinsurance/underwriter/getQuoteById",
+                        type: "POST",
+                        data: {
+                          id: id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                          console.log(data);
+                          $("#quoteId").val(data._id);
+                          $("#fn").val(data.firstname+", "+data.lastname);
+                          $("#a").val(data.age);
+                          $("#s").val(data.state);
+                          $("#dl").val(data.driverlicense);
+                          $("#m").val(data.make);
+                          $("#acc").val(data.accin3y);
+                          $("#sc").val(data.score);
+                          $("#approveStatus").empty();
+                          if(data.uwprove=='0'||data.uwprove==null){
+                            $("#approveStatus").append("<option value='0'>please choose</option>");
+                            $("#approveStatus").append("<option value='1'>approve</option>");
+                            $("#approveStatus").append("<option value='2'>disapprove</option>");
+                          }
+                          if(data.uwprove=='1'){
+                            $("#approveStatus").append("<option value='1'>approve</option>");
+                            $("#approveStatus").append("<option value='2'>disapprove</option>");
+                          }
+                          if(data.uwprove=='2'){
+                            $("#approveStatus").append("<option value='2'>disapprove</option>");
+                            $("#approveStatus").append("<option value='1'>approve</option>");
+                          }
+                          
+                          
+                          $("#comment").val(data.comment);
+                        },
+                        error: function (data) {
+                          
+                        }
+                      });
+    
+  }
+  
+  function saveStatus() {
+    var id = $("#quoteId").val();
+    var approveStatus = $("#approveStatus").val();
+    var comment = $("#comment").val();
+    $.ajax({
+                        url: "/carinsurance/underwriter/saveQuote",
+                        type: "POST",
+                        data: {
+                          id: id,
+                          appriveStatus: approveStatus,
+                          comment: comment
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                          $("#myModal").modal('hide');  //手动关闭
+                        },
+                        error: function (data) {
+                          
+                        }
+                      });
+  
+    
+  }
+
+  </script>
 
 </body>
 

@@ -14,6 +14,8 @@
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
@@ -22,6 +24,7 @@
 
   <!-- Custom styles for this template -->
   <link href="/css/agency.min.css" rel="stylesheet">
+  <link href="/css/form.min.css" rel="stylesheet">
 
 </head>
 
@@ -43,9 +46,9 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#newQuote">New Quote</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#checkQuote">Check Quote</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -108,12 +111,154 @@
           <h2 class="section-heading text-uppercase">New Quote</h2>
           <h3 class="section-subheading text-muted">Start you new Quote.</h3>
         </div>
+
+        <div class="col-lg-12 column">
+          <form id="quoteForm" action="/carinsurance/driver/check" method="post" class="form-signin">
+            <input type="hidden" id="score_result_2" name="score"></input>
+            <input type="hidden" id="charge_result_2" name="charge"></input>
+            <!-- <img class="mb-4" src="/images/caricon.png" alt="" width="72" height="72"> -->
+            <h1 class="h3 mb-3 font-weight-normal">Please Fill the Quote</h1>
+    
+            <div class="form-group">
+                <label for="firstname" class="sr-only">Firstname</label>
+                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Firstname" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="sr-only">Lastname</label>
+                <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Lastname" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div>
+            <div class="form-group">
+                <label for="age" class="sr-only">Age</label>
+                <input type="text" id="age" name="age" class="form-control" placeholder="Age" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div>
+            <div class="form-group">
+                <label for="state" class="sr-only">State</label>
+                <input type="text" id="state" name="state" class="form-control" placeholder="state" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div>
+            <div class="form-group">
+                <label for="driverlicense" class="sr-only">Driverlicense</label>
+                <input type="text" id="driverlicense" name="driverlicense" class="form-control" placeholder="Driverlicense" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div>
+            <div class="form-group">
+                <label for="make" class="sr-only">Make</label>
+                <input type="text" id="make" name="make" class="form-control" placeholder="Make" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div>
+            <!-- <div class="form-group">
+                <label for="dui" class="sr-only">DUI</label>
+                <input type="dui" id="dui" name="dui" class="form-control" placeholder="DUI" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div> -->
+              <div class="form-group">
+                <label for="accin3y" class="sr-only">Accin3y</label>
+                <input type="accin3y" id="accin3y" name="accin3y" class="form-control" placeholder="Accin3y" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+            </div>
+
+
+              <div class="form-group">
+                    <p class = "form-control" style="width:10%;overflow-x:hidden;float:left;margin-right:3%;">Score: </p>
+                    <p class = "form-control" id = "score_result" style="width:20%;overflow-x:hidden;float:left;margin-right:8%;"></p>
+
+                    <p class = "form-control" style="width:10%;overflow-x:hidden;float:left;margin-right:3%;">Charge: </p>
+                    <p class = "form-control" id = "charge_result" style="width:20%;overflow-x:hidden;float:left;margin-right:3%;"></p>
+
+                    <button type="button" class="btn btn-lg btn-info btn-block" onclick="calcu_score()" style="width:20%;overflow-x:hidden;float:right;">Calculate</button>
+
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-lg btn-info btn-block" style="clear:both" id="btn-test" onclick="test_rest()">Submit</button>
+<!--                 <button type="button" class="btn btn-lg btn-info btn-block" onclick="test_rest()">TEST</button> -->
+            </div>
+            
+          </form>
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+              <script src="/js/bootbox.all.min.js"></script>
+              <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+              <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+              <script src="/js/bootstrap-validate.js"></script>
+
+          <script> 
+             var firstName = '<%=userInfo.firstname %>';
+             var lastName = '<%=userInfo.lastname %>';
+             
+             $("#firstname").val(firstName);
+             $('#lastname').val(lastName);
+
+            function calcu_score(){
+              var age = $("#age").val();
+              var make = $("#make").val();
+              //var dui = $("#dui").val();
+              var accin3y = $("#accin3y").val();
+              var score = parseInt(age) + parseInt(make) + parseInt(accin3y);
+              var charge = 200 * score;
+              var rs_sc = document.getElementById('score_result');
+              var rs_ch = document.getElementById('charge_result');
+              // rs.value = val;
+              rs_sc.innerText = score;
+              rs_ch.innerText = charge;
+              $("#score_result_2").val(score);
+              $("#charge_result_2").val(charge);
+
+              //$("#score_result").val(val);
+              //alert(val);
+            }
+
+            bootstrapValidate("#lastname","regex:^[a-zA-Z0-9_\.]+$:string invalid");
+            bootstrapValidate("#accin3y", "numeric: Please only enter number");
+            bootstrapValidate("#age", "numeric: Please only enter number");
+            bootstrapValidate("#make", "numeric: Please only enter number");
+            bootstrapValidate("#driverlicense", "max:8: driverlicense do not more than 8 characters");
+            
+            function test_rest(){
+              // document.getElementById("quoteForm").reset();
+            $("#quoteForm").submit();  
+            $("#quoteForm input").val("");
+            var rs_sc = document.getElementById('score_result');
+            var rs_ch = document.getElementById('charge_result');
+              // rs.value = val;
+            rs_sc.innerText = "";
+            rs_ch.innerText = "";
+            // reload();
+            // alert("all done");
+
+            }
+
+            // $('#loginForm').bootstrapValidator({
+            //   message: 'This value is not valid',
+            //   feedbackIcons: {
+            //     valid: 'glyphicon glyphicon-ok',
+            //     invalid: 'glyphicon glyphicon-remove',
+            //     validating: 'glyphicon glyphicon-refresh'
+            //   },
+            //   fields: {
+            //     username: {
+            //       message: 'The username is not valid',
+            //       validators: {
+            //         notEmpty: {
+            //           message: 'username can not be empty'
+            //         }
+            //       }
+            //     },
+            //     password: {
+            //       message: 'The password is not valid',
+            //       validators: {
+            //         notEmpty: {
+            //           message: 'password can not be empty'
+            //         }
+            //       }
+            //     },
+            //   }
+            // });
+
+          </script>
+        </div>
       </div>
     </div>
+
   </section>
 
   <!-- checkQuote -->
-  <section class="bg-light" id="checkQuote">
+  <!-- <section class="bg-light" id="checkQuote">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -125,7 +270,7 @@
         
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- Bootstrap core JavaScript -->
   <script src="/vendor/jquery/jquery.min.js"></script>
@@ -140,6 +285,8 @@
 
   <!-- Custom scripts for this template -->
   <script src="/js/agency.min.js"></script>
+
+
 
 </body>
 

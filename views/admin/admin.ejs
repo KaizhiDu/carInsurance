@@ -22,6 +22,7 @@
 
   <!-- Custom styles for this template -->
   <link href="/css/agency.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
 
 </head>
 
@@ -97,17 +98,46 @@
   </section>
 
   <!-- permitQuote -->
-  <section class="bg-light" id="permitQuote">
+  <section id="permitQuote">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Permit Quote</h2>
-          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
         </div>
       </div>
       <div class="row">
-        
+          <div class="col-md-9 column">
+          <div id="myTable" style="table-layout: fixed;"></div>
+          </div>
+          <div class="col-md-3 column">
+              <form role="form" action="/data" method="get">
+                  <div class="form-group">
+                      <label for="name">name</label><input type="text" class="form-control" name="firstname" id="firstname" />
+                  </div>
+                  <div class="form-group">
+                      <label for="email">age</label><input type="text" class="form-control" name="age"
+                          id="age" />
+                  </div>
+                  <div class="form-group">
+                      <label for="address">DL</label><input type="text" class="form-control" name="driverlicense"
+                          id="driverlicense" />
+                  </div>
+                  <div class="form-group">
+                      <label for="name">state</label><input type="text" class="form-control" name="state" id="state" />
+                  </div>
+                  <div class="form-group">
+                      <label for="phone">make</label><input type="text" class="form-control" name="make"
+                          id="make" />
+                  </div>
+                  <div class="form-group">
+                      <label for="name">accin3y</label><input type="text" class="form-control" name="accin3y" id="accin3y" />
+                  </div>
+                  
+                  <button type="button" onclick="search()" class="btn btn-success">search</button>
+              </form>
+          </div>
       </div>
+
     </div>
   </section>
 
@@ -121,9 +151,173 @@
   <!-- Contact form JavaScript -->
   <script src="/js/jqBootstrapValidation.js"></script>
   <script src="/js/contact_me.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>>
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/locale/bootstrap-table-en-US.min.js"></script>
+  <script src="/js/bootbox.all.min.js"></script>
 
   <!-- Custom scripts for this template -->
   <script src="/js/agency.min.js"></script>
+
+  <script>
+  search();
+
+function search() {
+    $("#myTable").bootstrapTable("destroy");
+    $("#myTable").bootstrapTable({ // 对应table标签的id  
+        url: "/carinsurance/admin/data", // 获取表格数据的url
+        method: 'get',
+        cache: false,
+        pagination: true,
+        //sidePagination:'server',//设置为后台服务器分页
+        pageNumber: 1,
+        //pageSize:10,
+        //pageList:[10,20,30,40,50],
+        queryParamsType: '',//请求参数类型，默认为`limit`，使用默认值不会向后台出入分页所需的页号，页数据数等必须值，所以需要设置为空串
+        queryParams: function (params) {//向后台传输参数。params为bootstrap-table的options.
+            var param = {
+                page: params.pageNumber,//获取页号
+                size: params.pageSize,//获取页面数据量大小
+                 firstname: $("#firstname").val(),
+                 age: $("#age").val(),
+                 driverlicense: $("#driverlicense").val(),
+                 state: $("#state").val(),
+                 make: $("#make").val(),
+                 accin3y: $("#accin3y").val(),
+                 dui: $("#accin3y").val()
+            }
+            return param;
+        },
+        //uniqueId:'_id',
+        //toolbar:'#toolbar',
+        //showColumns:true,
+        //showRefresh:true,
+        //showToggle:true,
+        //search:true,
+        //       sortName: 'id', // 要排序的字段
+        //       sortOrder: 'desc', // 排序规则
+        columns: [
+            {
+                checkbox: true, // 显示一个勾选框
+                align: 'center'
+            }, {
+                field: '_id',
+                title: '_id',
+                align: 'center',
+                valign: 'middle',
+                visible: false,
+            },
+            {
+                field: 'firstname',
+                title: 'name',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            }, {
+                field: 'age',
+                title: 'age',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                field: 'driverlicense',
+                title: 'DL',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                field: 'state',
+                title: 'state',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                field: 'make',
+                title: 'make',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                field: 'accin3y',
+                title: 'accin3y',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                title: "opt",
+                align: 'center',
+                valign: 'middle',
+                width: 300, // 定义列的宽度，单位为像素px
+                formatter: function (value, row, index) {
+                    return ['<button class="btn btn-danger btn-sm" onclick="deny(\'' + row._id + '\')">Deny</button>' ,   
+                           '<button class="btn btn-info btn-sm" onclick="permit(\'' + row._id + '\')">Permit</button>'].join('');
+                }
+            }
+        ],
+        onLoadSuccess: function () {  //加载成功时执行
+            console.info("加载成功");
+        },
+        onLoadError: function () {  //加载失败时执行
+            console.info("加载数据失败");
+        }
+
+    });
+}
+
+function deny(id) {
+  bootbox.confirm({title: "WARNING",
+                  message: "Are you sure you want to deny this quote?",
+                  buttons: {confirm: {label: 'Yes',className: 'btn-success'},
+                  cancel: {label: 'No',className: 'btn-danger'}},
+                  callback: function (result) {                   
+                    if(result) {  
+                      $.ajax({
+                      url: "/carinsurance/admin/deny",
+                      type: "POST",
+                      data: {
+                        id: id
+                      },
+                      dataType: "json",
+                      success: function (data) {
+                      }
+                    });
+                  $("#myTable").bootstrapTable('refresh', {
+                      silent: true
+                  });
+                    } 
+                  }});
+}
+
+function permit(id) {
+  bootbox.confirm({title: "WARNING",
+                  message: "Are you sure you want to permit this quote?",
+                  buttons: {confirm: {label: 'Yes',className: 'btn-success'},
+                  cancel: {label: 'No',className: 'btn-danger'}},
+                  callback: function (result) {                   
+                    if(result) {  
+                      $.ajax({
+                      url: "/carinsurance/admin/permit",
+                      type: "POST",
+                      data: {
+                        id: id
+                      },
+                      dataType: "json",
+                      success: function (data) {
+                      }
+                    });
+                  $("#myTable").bootstrapTable('refresh', {
+                      silent: true
+                  });
+                    } 
+                  }});
+}
+
+
+</script>
 
 </body>
 

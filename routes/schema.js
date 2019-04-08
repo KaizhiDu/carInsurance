@@ -9,7 +9,32 @@ var userSchema = new mongoose.Schema({
     email: String,
     type: String,
 });
+
+var quoteSchema = new mongoose.Schema({
+    firstname: String,
+    lastname: String,
+    age: Number,
+    state: String,
+    driverlicense: String,
+    make: Number,
+    dui: Number,
+    accin3y: Number,
+    score: Number,
+    charge: Number,
+    adminprove: Number,
+    uwprove: Number,
+    comment: String,
+    driver: {
+        firstname: String,
+        lastname: String,
+        username: String,
+        password: String
+    }
+
+});
+
 mongodb.col={};
 mongodb.col.users = mongoose.model("User", userSchema);
+mongodb.col.quotes = mongoose.model("Quote", quoteSchema);
 
 module.exports = mongodb;

@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const login = require("./routes/login");
 const admin = require("./routes/admin");
 const register = require("./routes/register");
+const underwriter = require("./routes/underwriter");
+const driver = require("./routes/driver");
 
 const app = express();
 
@@ -17,6 +19,8 @@ mongoose.connect("mongodb+srv://admin-kevin:dkzh19921210@firstdemo-o9czr.mongodb
 app.use("/carinsurance/login", login);
 app.use("/carinsurance/admin", admin);
 app.use("/carinsurance/register", register);
+app.use("/carinsurance/underwriter", underwriter);
+app.use("/carinsurance/driver", driver);
 
 app.get("/", function (req, res) {
     res.render("index/index.ejs");

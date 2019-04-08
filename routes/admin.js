@@ -9,49 +9,17 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../public")));
 mongoose.connect("mongodb+srv://admin-kevin:dkzh19921210@firstdemo-o9czr.mongodb.net/carInsuranceDB", {useNewUrlParser: true});
+var mongodb = require("../routes/schema");
 
-const quoteSchema = new mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    age: Number,
-    state: String,
-    driverlicense: String,
-    make: Number,
-    dui: Number,
-    accin3y: Number,
-    score: Number,
-    charge: Number,
-    adminprove: Number,
-    uwprove: Number,
-    driver: {
-        username: String,
-        password: String
-    }
-
-});
-const Quote = mongoose.model("Quotes", quoteSchema);
-
-
-router.get("/home", function (req, res) {
-
-    res.render("admin/admin");
-
-});
-
-router.get("/permitquote", function (req, res) {
-    res.render("admin/permitquote");
-});
+var Quote = mongodb.col.quotes;
 
 router.get("/data", function (req, res) {
-
      var queryParams = req.query;
      
      var condition = new Object();
+     condition.adminprove = 0;
      if (queryParams.firstname!="") {
          condition.firstname = queryParams.firstname;
-     }
-     if (queryParams.lastname!="") {
-         condition.lastname = queryParams.lastname;
      }
      if (queryParams.age!="") {
         condition.age = queryParams.age;
@@ -62,27 +30,10 @@ router.get("/data", function (req, res) {
     if (queryParams.make!="") {
         condition.make = queryParams.make;
     }
-    if (queryParams.dui!="") {
-        condition.dui = queryParams.dui;
-    }
     if (queryParams.accin3y!="") {
         condition.accin3y = queryParams.accin3y;
     }
-    if (queryParams.score!="") {
-        condition.score = queryParams.score;
-    }
-    if (queryParams.charge!="") {
-        condition.charge = queryParams.charge;
-    }
-    if (queryParams.adminprove!="") {
-        condition.adminprove = queryParams.adminprove;
-    }
-    if (queryParams.uwprove!="") {
-        condition.uwprove = queryParams.uwprove;
-    }
-    if (queryParams.username!="") {
-        condition.username = queryParams.username;
-    }
+    
      var params= {
          page: queryParams.page,
          size: queryParams.size,
@@ -94,11 +45,11 @@ router.get("/data", function (req, res) {
          if(err){
              res.send({success:false,msg:err,data:null});
          }else{
-             People.find(params.condition, function (err, peoples) {
+            Quote.find(params.condition, function (err, quotes) {             
                  if (err) {
                      res.send({success:false,msg:err,data:null});
                  } else {
-                     res.send({'success':true,'msg':"获取用户列表成功",'total':peoples.length,'rows':users});
+                     res.send({'success':true,'msg':"获取用户列表成功",'total':quotes.length,'rows':users});
                  }
              });
          }
@@ -110,7 +61,7 @@ function getPagination (params, callback) {
     var index = (params.page-1)*params.size;//设置分页起点下标
     var size = parseInt(params.size);
     //设置分页条件
-    var query = People.find(params.condition, function (err, peoples) {});
+    var query = Quote.find(params.condition, function (err, quotes) {});
     query.limit(size);//条数
     query.skip(index);//下标
 
@@ -119,6 +70,32 @@ function getPagination (params, callback) {
         callback(err,users);
     });
 }
+
+router.post("/deny", function (req, res) {
+    const id = mongoose.Types.ObjectId(req.body.id);
+    Quote.deleteOne({"_id": id}, function (err) {
+        if (err) {
+            console.log(err);
+            
+        } else {
+            //console.log("successful delete");
+        }
+    });
+    
+});
+
+router.post("/permit", function (req, res) {
+    const id = mongoose.Types.ObjectId(req.body.id);
+    Quote.update({_id: id}, {adminprove: "1"}, function (err) {
+        if(err){
+            console.log(err);
+        }else{
+            //console.log("successful update");
+        }
+    });
+
+});
+
 
 
 module.exports = router;
