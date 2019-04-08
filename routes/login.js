@@ -40,7 +40,7 @@ router.post("/check", function (req, res) {
             //console.log(user);
             if (user) {
                 switch (user.type) {
-                    case "0": res.render("driver/driver", {userInfo: user});
+                    case "0": res.render("driver/driver", {firstName: user.firstname, lastName: user.lastname});
                         
                         break;
                     case "1": res.render("admin/admin", {userInfo: user});

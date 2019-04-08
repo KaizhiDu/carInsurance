@@ -16,7 +16,7 @@ var quoteSchema = new mongoose.Schema({
     age: Number,
     state: String,
     driverlicense: String,
-    make: Number,
+    make: String,
     dui: Number,
     accin3y: Number,
     score: Number,

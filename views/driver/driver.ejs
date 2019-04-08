@@ -59,7 +59,7 @@
     <div class="container">
       <div class="intro-text">
             <div class="intro-lead-in">Welcome Back ! </div>
-        <div class="intro-heading text-uppercase"><%=userInfo.firstname %>, <%=userInfo.lastname %></div>
+        <div class="intro-heading text-uppercase"><%=firstName %>, <%=lastName %></div>
       </div>
     </div>
   </header>
@@ -114,34 +114,34 @@
 
         <div class="col-lg-12 column">
           <form id="quoteForm" action="/carinsurance/driver/check" method="post" class="form-signin">
-            <input type="hidden" id="score_result_2" name="score"></input>
-            <input type="hidden" id="charge_result_2" name="charge"></input>
+            <input type="hidden" id="score_result_2" name="score" ></input>
+            <input type="hidden" id="charge_result_2" name="charge" ></input>
             <!-- <img class="mb-4" src="/images/caricon.png" alt="" width="72" height="72"> -->
             <h1 class="h3 mb-3 font-weight-normal">Please Fill the Quote</h1>
     
             <div class="form-group">
                 <label for="firstname" class="sr-only">Firstname</label>
-                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Firstname" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Firstname" required oninvalid="setCustomValidity('firstname can not be empty')" oninput="setCustomValidity('');">
             </div>
             <div class="form-group">
                 <label for="lastname" class="sr-only">Lastname</label>
-                <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Lastname" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+                <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Lastname" required oninvalid="setCustomValidity('lastname can not be empty')" oninput="setCustomValidity('');">
             </div>
             <div class="form-group">
                 <label for="age" class="sr-only">Age</label>
-                <input type="text" id="age" name="age" class="form-control" placeholder="Age" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+                <input type="number" min="16" id="age" name="age" class="form-control" placeholder="Age" required oninvalid="setCustomValidity('age can not be empty/age at least 16')" oninput="setCustomValidity('');">
             </div>
             <div class="form-group">
                 <label for="state" class="sr-only">State</label>
-                <input type="text" id="state" name="state" class="form-control" placeholder="state" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+                <input type="text" id="state" name="state" class="form-control" placeholder="state" required oninvalid="setCustomValidity('state can not be empty')" oninput="setCustomValidity('');">
             </div>
             <div class="form-group">
                 <label for="driverlicense" class="sr-only">Driverlicense</label>
-                <input type="text" id="driverlicense" name="driverlicense" class="form-control" placeholder="Driverlicense" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+                <input type="text" id="driverlicense" name="driverlicense" class="form-control" placeholder="Driverlicense" required oninvalid="setCustomValidity('dl can not be empty')" oninput="setCustomValidity('');">
             </div>
             <div class="form-group">
                 <label for="make" class="sr-only">Make</label>
-                <input type="text" id="make" name="make" class="form-control" placeholder="Make" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+                <input type="text" id="make" name="make" class="form-control" placeholder="Make" required oninvalid="setCustomValidity('make can not be empty')" oninput="setCustomValidity('');">
             </div>
             <!-- <div class="form-group">
                 <label for="dui" class="sr-only">DUI</label>
@@ -149,14 +149,13 @@
             </div> -->
               <div class="form-group">
                 <label for="accin3y" class="sr-only">Accin3y</label>
-                <input type="accin3y" id="accin3y" name="accin3y" class="form-control" placeholder="Accin3y" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
+                <input type="number" max="3" id="accin3y" name="accin3y" class="form-control" placeholder="Accin3y" oninvalid="setCustomValidity('accin3y can not more than 3')" oninput="setCustomValidity('');">
             </div>
 
 
               <div class="form-group">
                     <p class = "form-control" style="width:10%;overflow-x:hidden;float:left;margin-right:3%;">Score: </p>
-                    <p class = "form-control" id = "score_result" style="width:20%;overflow-x:hidden;float:left;margin-right:8%;"></p>
-
+                    <p class = "form-control" id = "score_result" required style="width:20%;overflow-x:hidden;float:left;margin-right:8%;"></p>
                     <p class = "form-control" style="width:10%;overflow-x:hidden;float:left;margin-right:3%;">Charge: </p>
                     <p class = "form-control" id = "charge_result" style="width:20%;overflow-x:hidden;float:left;margin-right:3%;"></p>
 
@@ -165,7 +164,7 @@
             </div>
 
             <div class="form-group">
-                <button type="button" class="btn btn-lg btn-info btn-block" style="clear:both" id="btn-test" onclick="test_rest()">Submit</button>
+                <button type="submit" class="btn btn-lg btn-info btn-block" style="clear:both" id="btn-test">Submit</button>
 <!--                 <button type="button" class="btn btn-lg btn-info btn-block" onclick="test_rest()">TEST</button> -->
             </div>
             
@@ -178,18 +177,45 @@
               <script src="/js/bootstrap-validate.js"></script>
 
           <script> 
-             var firstName = '<%=userInfo.firstname %>';
-             var lastName = '<%=userInfo.lastname %>';
+             var firstName = '<%=firstName %>';
+             var lastName = '<%=lastName %>';
              
              $("#firstname").val(firstName);
              $('#lastname').val(lastName);
 
             function calcu_score(){
-              var age = $("#age").val();
-              var make = $("#make").val();
+              //var make = $("#make").val();
               //var dui = $("#dui").val();
               var accin3y = $("#accin3y").val();
-              var score = parseInt(age) + parseInt(make) + parseInt(accin3y);
+              var score = 0;
+              var age = parseInt($("#age").val());
+              if (age>=16&&age<18) {
+                score = score + 4;
+              }
+              if (age>=18&&age<21) {
+                score = score + 3;
+              }
+              if (age>=21&&age<25) {
+                score = score + 2;
+              }
+              if (age>=25) {
+                score = score + 1;
+              }
+              switch (accin3y) {
+                case '3':
+                  score = score + 4;
+                  break;
+                  case '2':
+                  score = score + 3;
+                  break;
+                  case '1':
+                  score = score + 2;
+                  break;
+              
+                default:
+                  break;
+              }
+              //var score = parseInt(age) + parseInt(accin3y);
               var charge = 200 * score;
               var rs_sc = document.getElementById('score_result');
               var rs_ch = document.getElementById('charge_result');
@@ -203,11 +229,10 @@
               //alert(val);
             }
 
-            bootstrapValidate("#lastname","regex:^[a-zA-Z0-9_\.]+$:string invalid");
+            bootstrapValidate("#age","regex:^[3-9]|([1-9][0-9]+)$: da yu 3");
             bootstrapValidate("#accin3y", "numeric: Please only enter number");
-            bootstrapValidate("#age", "numeric: Please only enter number");
-            bootstrapValidate("#make", "numeric: Please only enter number");
-            bootstrapValidate("#driverlicense", "max:8: driverlicense do not more than 8 characters");
+            //bootstrapValidate("#age", "numeric: Please only enter number");
+            //bootstrapValidate("#driverlicense", "max:8: driverlicense do not more than 8 characters");
             
             function test_rest(){
               // document.getElementById("quoteForm").reset();

@@ -26,6 +26,6 @@ app.get("/", function (req, res) {
     res.render("index/index.ejs");
 });
 
-app.listen(8080, function() {
+app.listen(8080||process.env.PORT, function() {
     console.log("Server started on port 8080");
   });
