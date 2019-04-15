@@ -37,7 +37,7 @@
   </head>
   <body class="text-center">
 
-    <form id="loginForm" action="/carinsurance/login/check" method="post" class="form-signin">
+    <form id="loginForm" onsubmit="return checkSubmit()" action="/carinsurance/login/check" method="post" class="form-signin">
   <img class="mb-4" src="/images/caricon.png" alt="" width="72" height="72">
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   <div class="form-group">
@@ -71,6 +71,31 @@
 <script src="/js/bootstrap-validate.js"></script>
 
 <script> 
+
+function checkSubmit() {
+  var flag = true;
+        const uname = $("#username").val();
+        const psword = $("#password").val();
+        const type = $('input[name="usertype"]:checked').val();
+                      $.ajax({
+                      url: "/carinsurance/login/checkIsExist",
+                      type: "POST",
+                      async:false,
+                      data: {
+                        username: uname,
+                        password: psword,
+                        type: type
+                      },
+                      dataType: "json",
+                      success: function (data) {
+                        if (data=="0") {
+                          bootbox.alert("username or password error");
+                          flag = false;
+                        } 
+                      }
+                    });
+      return flag;
+}
 
 
 $('#loginForm').bootstrapValidator({

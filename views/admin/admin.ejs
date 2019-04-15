@@ -42,8 +42,11 @@
             <a class="nav-link js-scroll-trigger" href="#services">Services</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#permitQuote">Permit Quote</a>
+            <a class="nav-link js-scroll-trigger" href="#Underwriter">Underwriter Management</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#Quote">Quote Management</a>
+          </li>         
         </ul>
       </div>
     </div>
@@ -97,20 +100,66 @@
     </div>
   </section>
 
-  <!-- permitQuote -->
-  <section id="permitQuote">
+  <!-- underwriter -->
+  <section id="Underwriter">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">Permit Quote</h2>
+          <h2 class="section-heading text-uppercase">Underwriter Management</h2>
         </div>
       </div>
+      <button class="btn btn-info" data-toggle="modal" data-target="#myModal">Create</button> <hr>
+      <div class="row">
+          <div class="col-md-9 column">
+          <div id="myTable2" style="table-layout: fixed;"></div>
+          </div>
+          <div class="col-md-3 column">
+              <form role="form" action="/data" method="get">
+                
+                  <div class="form-group">
+                      <label for="name">username</label><input type="text" class="form-control" name="u2" id="u2" />
+                  </div>
+                  <div class="form-group">
+                      <label for="email">firstname</label><input type="text" class="form-control" name="f2"
+                          id="f2" />
+                  </div>
+                  <div class="form-group">
+                      <label for="address">lastname</label><input type="text" class="form-control" name="l2"
+                          id="l2" />
+                  </div>
+                  <div class="form-group">
+                      <label for="name">process</label>
+                      <select name="active" id="active" class="form-control">
+                          <option value=''>Please choose</option>
+                          <option value='active'>active</option>
+                          <option value='inactive'>inactive</option>
+                      </select>
+                  </div>
+                  
+                  <button type="button" onclick="search2()" class="btn btn-success">search</button>
+              </form>
+          </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section id="Quote">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Quote Management</h2>
+        </div>
+      </div>
+      <hr>
       <div class="row">
           <div class="col-md-9 column">
           <div id="myTable" style="table-layout: fixed;"></div>
           </div>
           <div class="col-md-3 column">
               <form role="form" action="/data" method="get">
+                
                   <div class="form-group">
                       <label for="name">name</label><input type="text" class="form-control" name="firstname" id="firstname" />
                   </div>
@@ -122,15 +171,24 @@
                       <label for="address">DL</label><input type="text" class="form-control" name="driverlicense"
                           id="driverlicense" />
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                       <label for="name">state</label><input type="text" class="form-control" name="state" id="state" />
-                  </div>
+                  </div> -->
                   <div class="form-group">
                       <label for="phone">make</label><input type="text" class="form-control" name="make"
                           id="make" />
                   </div>
                   <div class="form-group">
                       <label for="name">accin3y</label><input type="text" class="form-control" name="accin3y" id="accin3y" />
+                  </div>
+                  <div class="form-group">
+                      <label for="name">process</label>
+                      <select name="uwprove" id="uwprove" class="form-control">
+                          <option value=''>Please choose</option>
+                          <option value='Unprocessed'>Unprocessed</option>
+                          <option value='approve'>approve</option>
+                          <option value='disapprove'>disapprove</option>
+                      </select>
                   </div>
                   
                   <button type="button" onclick="search()" class="btn btn-success">search</button>
@@ -140,6 +198,44 @@
 
     </div>
   </section>
+
+  <div id="myModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="title">Create Underwriter</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="quoteBody" class="modal-body">
+              <form id="loginForm" action="/carinsurance/admin/create" method="post" class="form-signin">
+                <div class="form-group">
+                    <label for="username" class="sr-only">Username</label>
+                    <input type="text" id="u3" name="u3" class="form-control" placeholder="Username" />
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                <input type="password" id="p3" name="p3" class="form-control" placeholder="Password" />
+                </div>
+                <div class="form-group">
+                  <label for="firstName" class="sr-only">firstName</label>
+                <input type="text" id="f3" name="f3" class="form-control" placeholder="firstName" />
+                </div>
+                <div class="form-group">
+                  <label for="lastName" class="sr-only">lastName</label>
+                <input type="text" id="l3" name="l3" class="form-control" placeholder="lastName" >
+                </div>
+        </form>             
+
+          </div>
+          <div class="modal-footer" id="modalFooter">
+            <button type="button" class="btn btn-primary" onclick="create()">Create</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <!-- Bootstrap core JavaScript -->
   <script src="/vendor/jquery/jquery.min.js"></script>
@@ -159,6 +255,180 @@
   <script src="/js/agency.min.js"></script>
 
   <script>
+      function create(){
+          var username = $("#u3").val();
+          var password = $("#p3").val();
+          var firstname = $("#f3").val();
+          var lastname = $("#l3").val();
+
+          $.ajax({
+                      url: "/carinsurance/admin/create",
+                      type: "POST",
+                      data: {
+                        username: username,
+                        password: password,
+                        firstname: firstname,
+                        lastname: lastname,
+                        active: "active"
+                      },
+                      dataType: "json",
+                      success: function (data) {
+                        if (data == "1") {
+                          bootbox.alert("Create Success");
+                          $("#myTable2").bootstrapTable('refresh', {
+                          silent: true
+                          });
+                        } 
+                        else{
+                          bootbox.alert("This user already exist");
+                        }
+                        $("#myModal").modal('hide');
+                       
+                  $("#u3").val("");
+                  $("#p3").val("");
+                  $("#f3").val("");
+                  $("#l3").val("");
+
+                      }
+                    });
+
+      }
+
+
+  search2();
+  function search2() {
+    $("#myTable2").bootstrapTable("destroy");
+    $("#myTable2").bootstrapTable({ // 对应table标签的id  
+        url: "/carinsurance/admin/data2", // 获取表格数据的url
+        method: 'get',
+        cache: false,
+        pagination: true,
+        //sidePagination:'server',//设置为后台服务器分页
+        pageNumber: 1,
+        //pageSize:10,
+        //pageList:[10,20,30,40,50],
+        queryParamsType: '',//请求参数类型，默认为`limit`，使用默认值不会向后台出入分页所需的页号，页数据数等必须值，所以需要设置为空串
+        queryParams: function (params) {//向后台传输参数。params为bootstrap-table的options.
+            var param = {
+                page: params.pageNumber,//获取页号
+                size: params.pageSize,//获取页面数据量大小
+                username: $("#u2").val(),
+                firstname: $("#f2").val(),
+                lastname: $("#l2").val(),
+                active: $("#active").val()
+            }
+            return param;
+        },
+        //uniqueId:'_id',
+        //toolbar:'#toolbar',
+        //showColumns:true,
+        //showRefresh:true,
+        //showToggle:true,
+        //search:true,
+        //       sortName: 'id', // 要排序的字段
+        //       sortOrder: 'desc', // 排序规则
+        columns: [
+            {
+                checkbox: true, // 显示一个勾选框
+                align: 'center'
+            }, {
+                field: '_id',
+                title: '_id',
+                align: 'center',
+                valign: 'middle',
+                visible: false,
+            },
+            {
+                field: 'username',
+                title: 'username',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                field: 'password',
+                title: 'password',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                field: 'firstname',
+                title: 'firstname',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },
+            {
+                field: 'lastname',
+                title: 'lastname',
+                align: 'center',
+                valign: 'middle',
+                width: 100
+            },  
+            {
+                  field: 'active',
+                  title: 'active',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+            {
+                title: "opt",
+                align: 'center',
+                valign: 'middle',
+                width: 300, // 定义列的宽度，单位为像素px
+                formatter: function (value, row, index) {
+                    return '<button class="btn btn-info btn-sm" onclick="active(\'' + row._id + '\',\'' + row.active + '\')">active/inactive</button>';                               
+                }
+            }
+        ],
+        onLoadSuccess: function () {  //加载成功时执行
+            console.info("加载成功2");
+        },
+        onLoadError: function () {  //加载失败时执行
+            console.info("加载数据失败2");
+        }
+
+    });
+  }
+
+
+  function active(id, active) {
+    var content = "";
+    if (active == "active") {
+      content = "inactive";
+    } else {
+      content = "active";
+    }
+    bootbox.confirm({title: "WARNING",
+                  message: "Are you sure you want to "+content+" this underwriter?",
+                  buttons: {confirm: {label: 'Yes',className: 'btn-success'},
+                  cancel: {label: 'No',className: 'btn-danger'}},
+                  callback: function (result) {                
+                    if(result) {  
+                      $.ajax({
+                      url: "/carinsurance/admin/active",
+                      type: "POST",
+                      data: {
+                        id: id,
+                        content: content
+                      },
+                      dataType: "json",
+                      success: function (data) {
+                        //setTimeout(function() { remind(); }, 500);
+                        bootbox.alert("update success");
+                        $("#myTable2").bootstrapTable('refresh', {
+                        silent: true
+                  });
+                      }
+                    });
+                  
+                    } 
+                  }});
+  }
+
+
   search();
 
 function search() {
@@ -183,7 +453,8 @@ function search() {
                  state: $("#state").val(),
                  make: $("#make").val(),
                  accin3y: $("#accin3y").val(),
-                 dui: $("#accin3y").val()
+                 dui: $("#accin3y").val(),
+                 uwprove: $("#uwprove").val()
             }
             return param;
         },
@@ -212,7 +483,8 @@ function search() {
                 align: 'center',
                 valign: 'middle',
                 width: 100
-            }, {
+            }, 
+            {
                 field: 'age',
                 title: 'age',
                 align: 'center',
@@ -222,13 +494,6 @@ function search() {
             {
                 field: 'driverlicense',
                 title: 'DL',
-                align: 'center',
-                valign: 'middle',
-                width: 100
-            },
-            {
-                field: 'state',
-                title: 'state',
                 align: 'center',
                 valign: 'middle',
                 width: 100
@@ -248,13 +513,20 @@ function search() {
                 width: 100
             },
             {
+                  field: 'uwprove',
+                  title: 'process',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+            {
                 title: "opt",
                 align: 'center',
                 valign: 'middle',
                 width: 300, // 定义列的宽度，单位为像素px
                 formatter: function (value, row, index) {
-                    return ['<button class="btn btn-danger btn-sm" onclick="deny(\'' + row._id + '\')">Deny</button>' ,   
-                           '<button class="btn btn-info btn-sm" onclick="permit(\'' + row._id + '\')">Permit</button>'].join('');
+                    return '<button class="btn btn-danger btn-sm" onclick="deny(\'' + row._id + '\')">Delete</button>';    
+                           
                 }
             }
         ],

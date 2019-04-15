@@ -27,12 +27,18 @@ router.post("/register", function (req, res) {
        if(user) res.render("register/registererr");
        else{
         newUser.save();
-        res.render("login");
+        res.render("driver/driver", {firstName: req.body.firstName, lastName: req.body.lastName});
        }
-   });
+   });  
+});
 
-    
-    
+router.post("/checkIsExist", function (req, res) {
+    User.findOne({username: req.body.username, type: '0'},function (err, user) {
+        if(user) res.send("0");
+        else{
+            res.send("1");
+        }
+    });
 });
 
 

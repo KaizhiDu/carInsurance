@@ -122,9 +122,9 @@
                     <label for="address">DL</label><input type="text" class="form-control" name="driverlicense"
                         id="driverlicense" />
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="name">state</label><input type="text" class="form-control" name="state" id="state" />
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label for="phone">make</label><input type="text" class="form-control" name="make"
                         id="make" />
@@ -159,10 +159,6 @@
               <div class="form-group">
                 <label>age</label>
                 <input id="a" type="text" class="form-control" disabled>
-              </div>
-              <div class="form-group">
-                <label>state</label>
-                <input id="s" type="text" class="form-control" disabled>
               </div>
               <div class="form-group">
                 <label>DL</label>
@@ -291,13 +287,6 @@
                   width: 100
               },
               {
-                  field: 'state',
-                  title: 'state',
-                  align: 'center',
-                  valign: 'middle',
-                  width: 100
-              },
-              {
                   field: 'make',
                   title: 'make',
                   align: 'center',
@@ -307,6 +296,13 @@
               {
                   field: 'accin3y',
                   title: 'accin3y',
+                  align: 'center',
+                  valign: 'middle',
+                  width: 100
+              },
+              {
+                  field: 'uwprove',
+                  title: 'process',
                   align: 'center',
                   valign: 'middle',
                   width: 100
@@ -392,25 +388,24 @@
                           console.log(data);
                           $("#quoteId").val(data._id);
                           $("#fn").val(data.firstname+", "+data.lastname);
-                          $("#a").val(data.age);
-                          $("#s").val(data.state);
+                          $("#a").val(data.age);                     
                           $("#dl").val(data.driverlicense);
                           $("#m").val(data.make);
                           $("#acc").val(data.accin3y);
                           $("#sc").val(data.score);
                           $("#approveStatus").empty();
-                          if(data.uwprove=='0'||data.uwprove==null){
-                            $("#approveStatus").append("<option value='0'>please choose</option>");
-                            $("#approveStatus").append("<option value='1'>approve</option>");
-                            $("#approveStatus").append("<option value='2'>disapprove</option>");
+                          if(data.uwprove=='Unprocessed'||data.uwprove==null){
+                            $("#approveStatus").append("<option value='Unprocessed'>please choose</option>");
+                            $("#approveStatus").append("<option value='approve'>approve</option>");
+                            $("#approveStatus").append("<option value='disapprove'>disapprove</option>");
                           }
-                          if(data.uwprove=='1'){
-                            $("#approveStatus").append("<option value='1'>approve</option>");
-                            $("#approveStatus").append("<option value='2'>disapprove</option>");
+                          if(data.uwprove=='approve'){
+                            $("#approveStatus").append("<option value='approve'>approve</option>");
+                            $("#approveStatus").append("<option value='disapprove'>disapprove</option>");
                           }
-                          if(data.uwprove=='2'){
-                            $("#approveStatus").append("<option value='2'>disapprove</option>");
-                            $("#approveStatus").append("<option value='1'>approve</option>");
+                          if(data.uwprove=='disapprove'){
+                            $("#approveStatus").append("<option value='disapprove'>disapprove</option>");
+                            $("#approveStatus").append("<option value='approve'>approve</option>");
                           }
                           
                           
@@ -438,9 +433,12 @@
                         dataType: "json",
                         success: function (data) {
                           $("#myModal").modal('hide');  //手动关闭
+                          $("#myTable").bootstrapTable('refresh', {
+                          silent: true
+                          });
+                          bootbox.alert("modify success");
                         },
-                        error: function (data) {
-                          
+                        error: function (data) {                          
                         }
                       });
   

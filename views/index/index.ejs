@@ -109,7 +109,7 @@
         </div>
       </div>
       <div class="row">
-              <form id="loginForm" action="/carinsurance/register/register" method="post" class="form-signin">
+              <form id="loginForm" onsubmit="return checkSubmit()" action="/carinsurance/register/register" method="post" class="form-signin">
                 <h1 class="h3 mb-3 font-weight-normal">Please sign up first</h1>
                 <div class="form-group">
                     <label for="username" class="sr-only">Username</label>
@@ -150,6 +150,7 @@
   <script src="/js/jqBootstrapValidation.js"></script>
   <script src="/js/contact_me.js"></script>
   <script src="/js/bootstrap-validate.js"></script>
+  <script src="/js/bootbox.all.min.js"></script>
 
   <!-- Custom scripts for this template -->
   <script src="/js/agency.min.js"></script>
@@ -160,6 +161,27 @@
       bootstrapValidate("#firstName", "required: can not empty");
       bootstrapValidate("#lastName", "required: can not empty");
       bootstrapValidate("#email", "email: enter a vaild email address");
+
+      function checkSubmit(){
+        var flag = true;
+        const uname = $("#username").val();
+                      $.ajax({
+                      url: "/carinsurance/register/checkIsExist",
+                      type: "POST",
+                      async:false,
+                      data: {
+                        username: uname
+                      },
+                      dataType: "json",
+                      success: function (data) {
+                        if (data=="0") {
+                          bootbox.alert("This user already exit");
+                          flag = false;
+                        } 
+                      }
+                    });
+      return flag;
+                  }
   </script>
 
 </body>

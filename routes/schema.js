@@ -8,6 +8,8 @@ var userSchema = new mongoose.Schema({
     lastname: String,
     email: String,
     type: String,
+    active: String,
+    isUm: String
 });
 
 var quoteSchema = new mongoose.Schema({
@@ -22,7 +24,7 @@ var quoteSchema = new mongoose.Schema({
     score: Number,
     charge: Number,
     adminprove: Number,
-    uwprove: Number,
+    uwprove: String,
     comment: String,
     driver: {
         firstname: String,

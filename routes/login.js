@@ -59,11 +59,19 @@ router.post("/check", function (req, res) {
                 res.render("loginerr");
             }
             
-        }
-        
-       
-    });
-    
+        }   
+    });  
 });
+
+router.post("/checkIsExist", function (req, res) {
+    User.findOne({username: req.body.username, password: req.body.password, type: req.body.type},function (err, user) {
+        if(user) res.send("1");
+        else{
+            res.send("0");
+        }
+    });
+});
+
+
 
 module.exports = router;

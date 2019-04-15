@@ -26,6 +26,12 @@
   <link href="/css/agency.min.css" rel="stylesheet">
   <link href="/css/form.min.css" rel="stylesheet">
 
+  <style>
+      .ExceptionP {
+        color: red;
+      }
+    </style>
+
 </head>
 
 <body id="page-top">
@@ -120,55 +126,86 @@
             <h1 class="h3 mb-3 font-weight-normal">Please Fill the Quote</h1>
     
             <div class="form-group">
-                <label for="firstname" class="sr-only">Firstname</label>
-                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Firstname" required oninvalid="setCustomValidity('firstname can not be empty')" oninput="setCustomValidity('');">
+                <label><b>FirstName</b></label>
+                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Firstname">
             </div>
             <div class="form-group">
-                <label for="lastname" class="sr-only">Lastname</label>
-                <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Lastname" required oninvalid="setCustomValidity('lastname can not be empty')" oninput="setCustomValidity('');">
+                <label><b>LastName</b></label>
+                <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Lastname">
             </div>
             <div class="form-group">
-                <label for="age" class="sr-only">Age</label>
-                <input type="number" min="16" id="age" name="age" class="form-control" placeholder="Age" required oninvalid="setCustomValidity('age can not be empty/age at least 16')" oninput="setCustomValidity('');">
+                <label><b>Age</b></label>
+                <input type="number" min="16" id="age" name="age" class="form-control" placeholder="Age">
             </div>
             <div class="form-group">
-                <label for="state" class="sr-only">State</label>
-                <input type="text" id="state" name="state" class="form-control" placeholder="state" required oninvalid="setCustomValidity('state can not be empty')" oninput="setCustomValidity('');">
+                <label><b>State</b></label>
+                <input type="text" id="state" value="CA" name="state" class="form-control" placeholder="state" disabled>
             </div>
             <div class="form-group">
-                <label for="driverlicense" class="sr-only">Driverlicense</label>
-                <input type="text" id="driverlicense" name="driverlicense" class="form-control" placeholder="Driverlicense" required oninvalid="setCustomValidity('dl can not be empty')" oninput="setCustomValidity('');">
+                <label><b>DL</b></label>
+                <input type="text" id="driverlicense" name="driverlicense" class="form-control" placeholder="Driverlicense">
             </div>
             <div class="form-group">
-                <label for="make" class="sr-only">Make</label>
-                <input type="text" id="make" name="make" class="form-control" placeholder="Make" required oninvalid="setCustomValidity('make can not be empty')" oninput="setCustomValidity('');">
+                <label><b>Make</b></label>
+                <select id="make" name="make" class="form-control">
+                      <option value="BMW">BMW</option>
+                      <option value="Honda">Honda</option>
+                      <option value="Toyota">Toyota</option>
+                      <option value="Nissan">Nissan</option>
+                      <option value="Ferrari">Ferrari</option>
+                      <option value="Ford">Ford</option>
+                      <option value="Mercedes">Mercedes</option>
+                </select>
             </div>
             <!-- <div class="form-group">
                 <label for="dui" class="sr-only">DUI</label>
                 <input type="dui" id="dui" name="dui" class="form-control" placeholder="DUI" required oninvalid="setCustomValidity('username can not be empty')" oninput="setCustomValidity('');">
             </div> -->
+            <label><b>Accin3y</b></label>
               <div class="form-group">
                 <label for="accin3y" class="sr-only">Accin3y</label>
-                <input type="number" max="3" id="accin3y" name="accin3y" class="form-control" placeholder="Accin3y" oninvalid="setCustomValidity('accin3y can not more than 3')" oninput="setCustomValidity('');">
+                <input type="number" max="3" id="accin3y" name="accin3y" class="form-control" placeholder="Accident in last 3 years">
             </div>
 
 
               <div class="form-group">
                     <p class = "form-control" style="width:10%;overflow-x:hidden;float:left;margin-right:3%;">Score: </p>
-                    <p class = "form-control" id = "score_result" required style="width:20%;overflow-x:hidden;float:left;margin-right:8%;"></p>
-                    <p class = "form-control" style="width:10%;overflow-x:hidden;float:left;margin-right:3%;">Charge: </p>
+                    <p class = "form-control" id = "score_result" required style="width:5%;overflow-x:hidden;float:left;margin-right:8%;"></p>
+                    <p class = "form-control" style="width:25%;overflow-x:hidden;float:left;margin-right:3%;">Policy Cost for 6 Months Is: </p>
                     <p class = "form-control" id = "charge_result" style="width:20%;overflow-x:hidden;float:left;margin-right:3%;"></p>
 
-                    <button type="button" class="btn btn-lg btn-info btn-block" onclick="calcu_score()" style="width:20%;overflow-x:hidden;float:right;">Calculate</button>
+                    <button type="button" class="btn btn-lg btn-primary btn-block" onclick="calcu_score()" style="width:20%;overflow-x:hidden;float:right;">Calculate</button>
 
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-lg btn-info btn-block" style="clear:both" id="btn-test">Submit</button>
-<!--                 <button type="button" class="btn btn-lg btn-info btn-block" onclick="test_rest()">TEST</button> -->
+                    <button type="button" data-toggle="modal" data-target="#myModal" onclick="checkForm()" class="btn btn-lg btn-info btn-block" style="clear:both" id="btn-test">Submit</button>
+                    <button type="button" onclick="reForm()" class="btn btn-lg btn-danger btn-block" style="clear:both" id="btn-test">Cancel</button>
             </div>
             
           </form>
+
+            <div id="myModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="title">Quotation</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div id="quoteBody" class="modal-body">
+                        
+          
+                    </div>
+                    <div class="modal-footer" id="modalFooter">
+                      <!-- <button type="button" class="btn btn-primary" onclick="saveStatus()">Submit</button> -->
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
               <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
               <script src="/js/bootbox.all.min.js"></script>
@@ -182,6 +219,109 @@
              
              $("#firstname").val(firstName);
              $('#lastname').val(lastName);
+
+
+             function saveQuote(){
+               $("#quoteForm").submit();
+              //$("#myModal").modal('hide');  //手动关闭
+             }
+
+
+             function checkForm(){
+              document.getElementById('quoteBody').innerText = "";
+                var flag = true;
+                var firstName = $("#firstname").val();
+                var lastName = $("#lastname").val();
+                var age = $("#age").val();
+                var dl = $("#driverlicense").val();
+                var accin3y = $("#accin3y").val();
+                var make = $("#make").val();
+                var score_result_2 = $("#score_result_2").val();
+                var charge_result_2 = $("#charge_result_2").val();
+                score_result_2
+                if (firstName == "") {
+                  flag = false;
+                  $("#quoteBody").append("<p class='ExceptionP'><b>firstName can not be empty</b><p>");
+                }
+                if (lastName == "") {
+                  flag = false;
+                  $("#quoteBody").append("<p class='ExceptionP'><b>lastName can not be empty</b><p>");
+                }
+                if (age == "") {
+                  flag = false;
+                  $("#quoteBody").append("<p class='ExceptionP'><b>age can not be empty</b><p>");
+                }
+                else{
+                  if (age<16) {
+                    flag = false;
+                    $("#quoteBody").append("<p class='ExceptionP'><b>driver at lease 16 years old</b><p>");
+                  }
+                }
+                if (dl == "") {
+                  flag = false;
+                  $("#quoteBody").append("<p class='ExceptionP'><b>dl can not be empty</b><p>");
+                }
+                else{
+                    var flag = true;
+                    if (dl.length!=8) {
+                      flag = false;
+                    }
+                    for(var i=0;i<dl.length;i++){
+                      if (i==0){
+                        var isletter = /^[a-zA-Z]+$/.test(dl[i]);
+                        if(isletter==false) flag = false;
+                      }
+                      else{
+                        var isnumber = /^[0-9]+.?[0-9]*/.test(dl[i]);
+                        if(isnumber == false) flag = false;
+                      }
+                    }
+                    if (flag == false) {
+                      $("#quoteBody").append("<p class='ExceptionP'><b>DL format illegal</b><p>");
+                    }
+                    
+                }
+                if (accin3y == "") {
+                  flag = false;
+                  $("#quoteBody").append("<p class='ExceptionP'><b>accin3y can not be empty</b><p>");
+                }
+                else{
+                  if(accin3y>3){
+                    flag = false;
+                    $("#quoteBody").append("<p class='ExceptionP'><b>accident can not over 3 in the near 3 years</b><p>");
+                  }
+                }
+
+                if (score_result_2 == "" || score_result_2 =='0') {
+                  flag = false;
+                  $("#quoteBody").append("<p class='ExceptionP'><b>you need calculate before you submit</b><p>");                   
+                }
+                
+                if(flag){
+                  document.getElementById('title').innerText = "Summary";
+                  document.getElementById('modalFooter').innerText = "";
+                  
+                  $("#quoteBody").append("<form role='form' action='/data' method='get'><div class='form-group'><label>name</label><input value='"+firstName+", "+lastName+"' type='text' disabled class='form-control'/></div><div class='form-group'><label>DL</label><input value='"+dl+"' type='text' disabled class='form-control'/></div><div class='form-group'><label>make</label><input value='"+make+"' type='text' disabled class='form-control'/></div><div class='form-group'><label>Cost of 6 mouths</label><input value='"+charge_result_2+"' type='text' disabled class='form-control'/></div></form>");
+           
+                  $("#modalFooter").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button><button type='button' class='btn btn-primary' onclick='saveQuote()'>Submit</button>");  
+                }else{
+                  document.getElementById('title').innerText = "Exception";
+                }
+             }
+
+             function reForm(){
+              $("#quoteForm input").val("");
+              $("#firstname").val(firstName);
+              $('#lastname').val(lastName);
+              $('#state').val("CA");
+              //$("#make").find("option[value='BMW']").attr("selected",true);
+              $("#make").html("");
+              $("#make").append(" <option value='BMW'>BMW</option><option value='Honda'>Honda</option><option value='Toyota'>Toyota</option><option value='Nissan'>Nissan</option><option value='Ferrari'>Ferrari</option><option value='Ford'>Ford</option><option value='Mercedes'>Mercedes</option>");
+              var rs_sc = document.getElementById('score_result');
+              var rs_ch = document.getElementById('charge_result');
+              rs_sc.innerText = "";
+              rs_ch.innerText = "";
+             }
 
             function calcu_score(){
               //var make = $("#make").val();
@@ -221,7 +361,7 @@
               var rs_ch = document.getElementById('charge_result');
               // rs.value = val;
               rs_sc.innerText = score;
-              rs_ch.innerText = charge;
+              rs_ch.innerText = "$ "+charge;
               $("#score_result_2").val(score);
               $("#charge_result_2").val(charge);
 
@@ -307,6 +447,7 @@
   <!-- Contact form JavaScript -->
   <script src="/js/jqBootstrapValidation.js"></script>
   <script src="/js/contact_me.js"></script>
+  <script src="/js/bootbox.all.min.js"></script>
 
   <!-- Custom scripts for this template -->
   <script src="/js/agency.min.js"></script>

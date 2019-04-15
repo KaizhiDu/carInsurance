@@ -92,7 +92,8 @@ router.post("/check", function (req, res) {
     					score: score,
     					charge: charge,
     					driver: driver,
-                        adminprove: 0,
+              adminprove: 1,
+              uwprove: "Unprocessed"   
     				});
 
                 newQuote.save();
